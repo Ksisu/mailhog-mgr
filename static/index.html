@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <title>MailHog Manager</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="application/javascript">
+        function reloadList(){
+	    $.getJSON("/api/list", function(result) {
+                var serverList = $('#server-list');
+                serverList.empty();
+		serverList.append("<tr><th>NAME</th><th>SMTP</th><th>UI</th></tr>");
+                $.each(result, function() {
+		    serverList.append("<tr><td>" + this.name + "</td><td>" + this.smtp  + "</td><td><a href=\"" + this.ui  + "\">" + this.ui + "</a></td></tr>");
+                });
+            });
+	}
+
+        $(document).ready(function(){
+            reloadList();
+
+            $( "#create-button" ).click(function() {
+                var name = $('#create-name').val();
+
+                $.ajax({
+                        type: "POST",
+                        url:"/api/create/" + name,
+                    })
+                    .done(reloadList)
+                    .fail(function(msg) {
+                        alert( "Error: " +  msg.status + " " + msg.responseText);
+                    });
+            });
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+        }
+        .box {
+            border: 1px solid black;
+            padding: 5px;
+            margin: 10px;
+        }
+	table, tr, td, th {
+	    border-collapse: collapse;
+	    border: 1px solid black;
+            padding: 5px;
+            margin: 10px
+	}
+    </style>
+</head>
+<body>
+<div class="box">
+    <h1>Create MailHog container</h1>
+    <form id="create-form">
+        Name: <input type="text" id="create-name"/>
+	<input type="button" id="create-button" value="Create"/>
+    </form>
+</div>
+<table id="server-list"></table>
+</body>
+</html>
