@@ -52,7 +52,7 @@ def create(name):
         client.containers.run(image="mailhog/mailhog", detach=True, labels={"mailhog.name":name}, publish_all_ports=True)
         return "{}"
 
-@app.route("/delete/<name>", methods=['POST'])
+@app.route("/api/delete/<name>", methods=['POST'])
 def delete(name):
     container_find = find_container(name)
     if not container_find:

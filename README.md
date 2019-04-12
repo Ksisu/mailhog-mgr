@@ -1,4 +1,4 @@
-Miniapp for create/list/remove [MailHog](https://github.com/mailhog/MailHog) containers.
+Mini weball for create/list/remove [MailHog](https://github.com/mailhog/MailHog) containers.
 
 ```sh
 docker run \
@@ -13,6 +13,6 @@ docker run \
   -d \
   -p 5000:5000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e DOMAIN=lvh.me
+  -e DOMAIN=lvh.me \
   ksisu/mailhog-mgr
 ```
